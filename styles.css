@@ -105,6 +105,20 @@ input[type="number"] {
 #yesBtn, #noBtn{
     font-size: 14px;
 }
+@media screen and (max-width: 480px) {
+    .container {
+        max-width: 100%;
+    }
+    .input-container {
+        max-width: 100%;
+    }
+    label {
+        flex-basis: 50%;
+    }
+    input[type="number"] {
+        flex-basis: 40%;
+    }
+}
 
  
   
