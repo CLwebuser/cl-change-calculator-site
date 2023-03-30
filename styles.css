@@ -107,10 +107,10 @@ input[type="number"] {
 }
 @media screen and (max-width: 480px) {
     .container {
-        max-width: 90%;
+        max-width: 100%;
     }
     .input-container {
-        max-width: 90%;
+        max-width: 78%;
     }
     label {
         flex-basis: 50%;
