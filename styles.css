@@ -110,7 +110,7 @@ input[type="number"] {
         max-width: 100%;
     }
     .input-container {
-        max-width: 78%;
+        max-width: 80%;
     }
     label {
         flex-basis: 50%;
