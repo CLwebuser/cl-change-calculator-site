@@ -16,47 +16,47 @@
 </head>
 <body>
     <body onload="calculateChange()">
-   <div id="dateInfo">
+<div id="dateInfo">
         <div class="dateItem">制作: 2023/03/29</div>
         <div class="dateItem">最終編集: 2023/03/31</div>
 </div>
         <div class="container">
     <h1>お釣り計算サイト</h1>
     <div class="input-container">
-        <label for="oneYen" class="input-label">1円玉:</label>
-        <input type="number" id="oneYen" value="0">
-    </div>
-    <div class="input-container">
-        <label for="fiveYen" class="input-label">5円玉:</label>
-        <input type="number" id="fiveYen" value="0">
-    </div>
-    <div class="input-container">
-        <label for="tenYen" class="input-label">10円玉:</label>
-        <input type="number" id="tenYen" value="0">
-    </div>
-    <div class="input-container">
-        <label for="fiftyYen" class="input-label">50円玉:</label>
-        <input type="number" id="fiftyYen" value="0">
-    </div>
-    <div class="input-container">
-        <label for="hundredYen" class="input-label">100円玉:</label>
-        <input type="number" id="hundredYen" value="0">
-    </div>
-    <div class="input-container">
-        <label for="fiveHundredYen" class="input-label">500円玉:</label>
-        <input type="number" id="fiveHundredYen" value="0">
-    </div>
-    <div class="input-container">
-        <label for="thousandYen" class="input-label">千円札:</label>
-        <input type="number" id="thousandYen" value="0">
+        <label for="tenThousandYen" class="input-label">一万円札:</label>
+        <input type="number" id="tenThousandYen" value="0">
     </div>
     <div class="input-container">
         <label for="fiveThousandYen" class="input-label">五千円札:</label>
         <input type="number" id="fiveThousandYen" value="0">
     </div>
     <div class="input-container">
-        <label for="tenThousandYen" class="input-label">一万円札:</label>
-        <input type="number" id="tenThousandYen" value="0">
+        <label for="thousandYen" class="input-label">千円札:</label>
+        <input type="number" id="thousandYen" value="0">
+    </div>
+    <div class="input-container">
+        <label for="fiveHundredYen" class="input-label">500円玉:</label>
+        <input type="number" id="fiveHundredYen" value="0">
+    </div>
+    <div class="input-container">
+        <label for="hundredYen" class="input-label">100円玉:</label>
+        <input type="number" id="hundredYen" value="0">
+    </div>
+    <div class="input-container">
+        <label for="fiftyYen" class="input-label">50円玉:</label>
+        <input type="number" id="fiftyYen" value="0">
+    </div>
+    <div class="input-container">
+        <label for="tenYen" class="input-label">10円玉:</label>
+        <input type="number" id="tenYen" value="0">
+    </div>
+    <div class="input-container">
+        <label for="fiveYen" class="input-label">5円玉:</label>
+        <input type="number" id="fiveYen" value="0">
+    </div>
+    <div class="input-container">
+        <label for="oneYen" class="input-label">1円玉:</label>
+        <input type="number" id="oneYen" value="0">
     </div>
     <div class="input-container">
         <label for="payment" class="input-label">支払額:</label>
@@ -69,29 +69,29 @@
 
     <h2>支払いに使用する硬貨・紙幣</h2>
     <p>支払いに使用する金額の合計: <span id="usedTotalAmount">0</span>円    </p>
-    <p id="usedOneYenP">1円玉: <span id="usedOneYen">0</span></p>
-    <p id="usedFiveYenP">5円玉: <span id="usedFiveYen">0</span></p>
-    <p id="usedTenYenP">10円玉: <span id="usedTenYen">0</span></p>
-    <p id="usedFiftyYenP">50円玉: <span id="usedFiftyYen">0</span></p>
-    <p id="usedHundredYenP">100円玉: <span id="usedHundredYen">0</span></p>
-    <p id="usedFiveHundredYenP">500円玉: <span id="usedFiveHundredYen">0</span></p>
-    <p id="usedThousandYenP">千円札: <span id="usedThousandYen">0</span></p>
-    <p id="usedFiveThousandYenP">五千円札: <span id="usedFiveThousandYen">0</span></p>
     <p id="usedTenThousandYenP">一万円札: <span id="usedTenThousandYen">0</span></p>
-    
+    <p id="usedFiveThousandYenP">五千円札: <span id="usedFiveThousandYen">0</span></p>
+    <p id="usedThousandYenP">千円札: <span id="usedThousandYen">0</span></p>
+    <p id="usedFiveHundredYenP">500円玉: <span id="usedFiveHundredYen">0</span></p>
+    <p id="usedHundredYenP">100円玉: <span id="usedHundredYen">0</span></p>
+    <p id="usedFiftyYenP">50円玉: <span id="usedFiftyYen">0</span></p>
+    <p id="usedTenYenP">10円玉: <span id="usedTenYen">0</span></p>
+    <p id="usedFiveYenP">5円玉: <span id="usedFiveYen">0</span></p>
+    <p id="usedOneYenP">1円玉: <span id="usedOneYen">0</span></p>
+
     <h2>お釣り</h2>
     <p>お釣り合計: (<span id="paymentTotalValue">0</span>円 - <span id="paymentValue">0</span>円) = <span id="changeTotalAmount">0</span>円</p>
     <p>お釣りの合計枚数: <span id="changeTotalCount">0</span>枚</p>
-    <p id="changeOneYenP">1円玉: <span id="changeOneYen">0</span></p>
-    <p id="changeFiveYenP">5円玉: <span id="changeFiveYen">0</span></p>
-    <p id="changeTenYenP">10円玉: <span id="changeTenYen">0</span></p>
-    <p id="changeFiftyYenP">50円玉: <span id="changeFiftyYen">0</span></p>
-    <p id="changeHundredYenP">100円玉: <span id="changeHundredYen">0</span></p>
-    <p id="changeFiveHundredYenP">500円玉: <span id="changeFiveHundredYen">0</span></p>
-    <p id="changeThousandYenP">千円札: <span id="changeThousandYen">0</span></p>
-    <p id="changeFiveThousandYenP">五千円札: <span id="changeFiveThousandYen">0</span></p>
     <p id="changeTenThousandYenP">一万円札: <span id="changeTenThousandYen">0</span></p>
-   
+    <p id="changeFiveThousandYenP">五千円札: <span id="changeFiveThousandYen">0</span></p>
+    <p id="changeThousandYenP">千円札: <span id="changeThousandYen">0</span></p>
+    <p id="changeFiveHundredYenP">500円玉: <span id="changeFiveHundredYen">0</span></p>
+    <p id="changeHundredYenP">100円玉: <span id="changeHundredYen">0</span></p>
+    <p id="changeFiftyYenP">50円玉: <span id="changeFiftyYen">0</span></p>
+    <p id="changeTenYenP">10円玉: <span id="changeTenYen">0</span></p>    
+    <p id="changeFiveYenP">5円玉: <span id="changeFiveYen">0</span></p>
+    <p id="changeOneYenP">1円玉: <span id="changeOneYen">0</span></p>
+    
     <button id="feedbackBtn">フィードバック</button>
     <div id="confirmation" style="display:none;">
       <p>制作者に感想やフィードバックを送りますか？(未実装)</p>
