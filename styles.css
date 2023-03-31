@@ -124,12 +124,13 @@ input[type="number"] {
 }
 
 #dateInfo {
-    position: fixed;
-    top: 10px;
-    right: 10px;
+    position: absolute;
+    top: 5px;
+    right: 8px;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.5);
     text-align: right;
+    z-index: 1000;
 }
  
   
