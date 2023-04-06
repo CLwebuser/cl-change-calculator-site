@@ -18,7 +18,7 @@
     <body onload="calculateChange()">
 <div id="dateInfo">
         <div class="dateItem">制作: 2023/03/29</div>
-        <div class="dateItem">最終編集: 2023/04/04</div>
+        <div class="dateItem">最終編集: 2023/04/06</div>
 </div>
         <div class="container">
     <h1>お釣り計算サイト</h1>
@@ -158,10 +158,10 @@ function clearInput(element) {
     calculateChange();
 }
 
-        // 関数：お釣りを計算
-        function calculateChange() {
-            // 入力値を取得
-            const oneYen = parseInt(document.getElementById("oneYen").value) || 0;
+// 関数：お釣りを計算
+function calculateChange() {
+// 入力値を取得
+const oneYen = parseInt(document.getElementById("oneYen").value) || 0;
     const fiveYen = parseInt(document.getElementById("fiveYen").value) || 0;
     const tenYen = parseInt(document.getElementById("tenYen").value) || 0;
     const fiftyYen = parseInt(document.getElementById("fiftyYen").value) || 0;
@@ -171,80 +171,124 @@ function clearInput(element) {
     const fiveThousandYen = parseInt(document.getElementById("fiveThousandYen").value) || 0;
     const tenThousandYen = parseInt(document.getElementById("tenThousandYen").value) || 0;
     const payment = parseInt(document.getElementById("payment").value) || 0;
-    
-            // 合計金額を計算
-            let totalAmount = oneYen + 5 * fiveYen + 10 * tenYen + 50 * fiftyYen + 100 * hundredYen + 500 * fiveHundredYen + 1000 * thousandYen + 5000 * fiveThousandYen + 10000 * tenThousandYen;
-    
-            // お釣りを計算
-            let change = totalAmount - payment;
-    
-            // 支払額が足りない場合
-            if (change < 0) {
-                alert("支払額が足りません。");
-                return;
-            }
-    
-            // 最小のお釣り枚数を初期化
-            let minChange = Infinity;
-    
-            // 最適な支払いとお釣りを初期化
-            let bestPayment = {
-                oneYen: 0, fiveYen: 0, tenYen: 0, fiftyYen: 0, hundredYen: 0, fiveHundredYen: 0, thousandYen: 0, fiveThousandYen: 0, tenThousandYen: 0
-            };
-    
-            let bestChange = {
-                oneYen: 0, fiveYen: 0, tenYen: 0, fiftyYen: 0, hundredYen: 0, fiveHundredYen: 0, thousandYen: 0, fiveThousandYen: 0, tenThousandYen: 0
-            };
-    
-            // 各硬貨・紙幣の組み合わせを試す
-            for (let i = 0; i <= oneYen; i++) {
-                for (let j = 0; j <= fiveYen; j++) {
-                    for (let k = 0; k <= tenYen; k++) {
-                        for (let l = 0; l <= fiftyYen; l++) {
-                            for (let m = 0; m <= hundredYen; m++) {
-                                for (let n = 0; n <= fiveHundredYen; n++) {
-                                    for (let o = 0; o <= thousandYen; o++) {
-                                        for (let p = 0; p <= fiveThousandYen; p++) {
-                                            for (let q = 0; q <= tenThousandYen; q++) {
-// 現在の支払い金額を計算
-const currentPayment =
-i + (5 * j) + (10 * k) +
-(50 * l) + (100 * m) + (500 * n) +
-(1000 * o) + (5000 * p) + (10000 * q)
-                                            // 支払額が要求額以上の場合
-                                            if (currentPayment >= payment) {
-                                            // お釣りを計算
-                                            const change = currentPayment - payment;
 
-                                            // お釣りの各硬貨・紙幣の枚数を計算
-                                            let changeOneYen = change % 5;
-                                            let changeFiveYen = (change % 10 - changeOneYen) / 5;
-                                            let changeTenYen = (change % 50 - changeFiveYen * 5 - changeOneYen) / 10;
-                                            let changeFiftyYen = (change % 100 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 50;
-                                            let changeHundredYen = (change % 500 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 100;
-                                            let changeFiveHundredYen = (change % 1000 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 500;
-                                            let changeThousandYen = (change % 5000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 1000;
-                                            let changeFiveThousandYen = (change % 10000 - changeThousandYen * 1000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 5000;
-                                            let changeTenThousandYen = (change - changeFiveThousandYen * 5000 - changeThousandYen * 1000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 10000;
+// 合計金額を計算
+let totalAmount = oneYen + 5 * fiveYen + 10 * tenYen + 50 * fiftyYen + 100 * hundredYen + 500 * fiveHundredYen + 1000 * thousandYen + 5000 * fiveThousandYen + 10000 * tenThousandYen;
 
-                                            // お釣りの枚数の合計を計算
-                                            const totalChange =
-                                                changeOneYen + changeFiveYen + changeTenYen +
-                                                changeFiftyYen + changeHundredYen + changeFiveHundredYen +
-                                                changeThousandYen + changeFiveThousandYen + changeTenThousandYen;
+    // お釣りを計算
+    let change = totalAmount - payment;
 
-                                            // 最小のお釣り枚数を更新
-                                            if (totalChange < minChange) {
-                                                minChange = totalChange;
-                                                bestPayment = {
-                                                    oneYen: i, fiveYen: j, tenYen: k,
-                                                    fiftyYen: l, hundredYen: m, fiveHundredYen: n, thousandYen: o, fiveThousandYen: p, tenThousandYen: q
+    // 支払額が足りない場合
+    if (change < 0) {
+        alert("支払額が足りません。");
+        return;
+    }
+
+    // DPテーブルを初期化
+    const dp = new Array(change + 1).fill(Infinity);
+    dp[0] = 0;
+
+    // コインの種類
+    const coins = [1, 5, 10, 50, 100, 500, 1000, 5000, 10000];
+
+    // DPテーブルを更新
+    for (let i = 0; i < coins.length; i++) {
+        for (let j = coins[i]; j <= change; j++) {
+            dp[j] = Math.min(dp[j], dp[j - coins[i]] + 1);
+        }
+    }
+
+    // 最適な支払いとお釣りを初期化
+    let bestPayment = {
+    oneYen: 0,
+    fiveYen: 0,
+    tenYen: 0,
+    fiftyYen: 0,
+    hundredYen: 0,
+    fiveHundredYen: 0,
+    thousandYen: 0,
+    fiveThousandYen: 0,
+    tenThousandYen: 0
 };
+
+
+let bestChange = {
+    oneYen: 0,
+    fiveYen: 0,
+    tenYen: 0,
+    fiftyYen: 0,
+    hundredYen: 0,
+    fiveHundredYen: 0,
+    thousandYen: 0,
+    fiveThousandYen: 0,
+    tenThousandYen: 0
+};
+
+
+
+
+  
+
+// 最小のお釣り枚数を取得
+let minChange = Infinity;
+
+// 各硬貨の組み合わせを試す
+const maxPayment = payment + 10000;
+for (let q = tenThousandYen; q >= 0 && minChange > 0; q--) {
+    if (q * 10000 > maxPayment) continue;
+  for (let p = fiveThousandYen; p >= 0 && minChange > 0; p--) {
+    for (let o = thousandYen; o >= 0 && minChange > 0; o--) {
+      for (let n = fiveHundredYen; n >= 0 && minChange > 0; n--) {
+        for (let m = hundredYen; m >= 0 && minChange > 0; m--) {
+          for (let l = fiftyYen; l >= 0 && minChange > 0; l--) {
+            for (let k = tenYen; k >= 0 && minChange > 0; k--) {
+              for (let j = fiveYen; j >= 0 && minChange > 0; j--) {
+              for (let i = oneYen; i >= 0 && minChange > 0; i--) {
+                             
+                
+                // 現在の支払い金額を計算
+                const currentPayment = i + (5 * j) + (10 * k) + (50 * l) + (100 * m) + (500 * n)  + (1000 * o) + (5000 * p) + (10000 * q);
+
+                // 支払額が要求額以上の場合
+                if (currentPayment >= payment && currentPayment <= maxPayment) {
+                    // お釣りを計算
+                    const change = currentPayment - payment;
+                    // お釣りの各硬貨の枚数を計算
+let changeOneYen = change % 5;
+let changeFiveYen = (change % 10 - changeOneYen) / 5;
+let changeTenYen = (change % 50 - changeFiveYen * 5 - changeOneYen) / 10;
+let changeFiftyYen = (change % 100 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 50;
+let changeHundredYen = (change % 500 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 100;
+let changeFiveHundredYen = (change % 1000 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 500;
+let changeThousandYen = (change % 5000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 1000;
+let changeFiveThousandYen = (change % 10000 - changeThousandYen * 1000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 5000;
+let changeTenThousandYen = (change - changeFiveThousandYen * 5000 - changeThousandYen * 1000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 10000;
+
+                    // お釣りの枚数の合計を計算
+                    const totalChange = dp[change];
+// 最小のお釣り枚数を更新
+if (totalChange < minChange) {
+    minChange = totalChange;
+    
+bestPayment = {
+oneYen: i,
+fiveYen: j,
+tenYen: k,
+fiftyYen: l,
+hundredYen: m,
+fiveHundredYen: n,
+thousandYen: o,
+fiveThousandYen: p,
+tenThousandYen: q
+};
+
 bestChange = {
 oneYen: changeOneYen, fiveYen: changeFiveYen, tenYen: changeTenYen,
 fiftyYen: changeFiftyYen, hundredYen: changeHundredYen, fiveHundredYen: changeFiveHundredYen,
 thousandYen: changeThousandYen, fiveThousandYen: changeFiveThousandYen, tenThousandYen: changeTenThousandYen
 };
+if (minChange === 0) {
+        break;
 }
 }
 }
@@ -256,6 +300,8 @@ thousandYen: changeThousandYen, fiveThousandYen: changeFiveThousandYen, tenThous
 }
 }
 }
+}
+
 // 結果を表示
 document.getElementById('usedOneYen').innerText = bestPayment.oneYen;
 document.getElementById('usedFiveYen').innerText = bestPayment.fiveYen;
@@ -344,4 +390,3 @@ document.getElementById('paymentTotalValue').innerText = usedTotalAmount;
 </script>
 </body>
 </html>
-
