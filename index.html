@@ -18,7 +18,7 @@
     <body onload="calculateChange()">
 <div id="dateInfo">
         <div class="dateItem">制作: 2023/03/29</div>
-        <div class="dateItem">最終編集: 2023/04/06</div>
+        <div class="dateItem">最終編集: 2023/04/07</div>
 </div>
         <div class="container">
     <h1>お釣り計算サイト</h1>
@@ -211,7 +211,6 @@ let totalAmount = oneYen + 5 * fiveYen + 10 * tenYen + 50 * fiftyYen + 100 * hun
     tenThousandYen: 0
 };
 
-
 let bestChange = {
     oneYen: 0,
     fiveYen: 0,
@@ -223,37 +222,77 @@ let bestChange = {
     fiveThousandYen: 0,
     tenThousandYen: 0
 };
-
-
-
-
   
 
 // 最小のお釣り枚数を取得
 let minChange = Infinity;
 
-// 各硬貨の組み合わせを試す
+// お釣りの組み合わせのメモ化用オブジェクト
+const memo = {};
+//制限
 const maxPayment = payment + 10000;
-for (let q = tenThousandYen; q >= 0 && minChange > 0; q--) {
-    if (q * 10000 > maxPayment) continue;
-  for (let p = fiveThousandYen; p >= 0 && minChange > 0; p--) {
-    for (let o = thousandYen; o >= 0 && minChange > 0; o--) {
-      for (let n = fiveHundredYen; n >= 0 && minChange > 0; n--) {
-        for (let m = hundredYen; m >= 0 && minChange > 0; m--) {
-          for (let l = fiftyYen; l >= 0 && minChange > 0; l--) {
-            for (let k = tenYen; k >= 0 && minChange > 0; k--) {
-              for (let j = fiveYen; j >= 0 && minChange > 0; j--) {
-              for (let i = oneYen; i >= 0 && minChange > 0; i--) {
-                             
-                
-                // 現在の支払い金額を計算
-                const currentPayment = i + (5 * j) + (10 * k) + (50 * l) + (100 * m) + (500 * n)  + (1000 * o) + (5000 * p) + (10000 * q);
+const maxOneYen = Math.min(oneYen, Math.ceil(payment / 1));
+const maxFiveYen = Math.min(fiveYen, Math.ceil(payment / 5));
+const maxTenYen = Math.min(tenYen, Math.ceil(payment / 10));
+const maxfiftyYen = Math.min(fiftyYen, Math.ceil(payment / 50));
+const maxhundredYen = Math.min(hundredYen, Math.ceil(payment / 100));
+const maxfiveHundredYen = Math.min(fiveHundredYen, Math.ceil(payment / 500));
+const maxthousandYen = Math.min(thousandYen, Math.ceil(payment / 1000));
+const maxfiveThousandYen = Math.min(fiveThousandYen, Math.ceil(payment / 5000));
+const maxtenThousandYen = Math.min(tenThousandYen, Math.ceil(payment / 10000));
 
-                // 支払額が要求額以上の場合
-                if (currentPayment >= payment && currentPayment <= maxPayment) {
-                    // お釣りを計算
-                    const change = currentPayment - payment;
-                    // お釣りの各硬貨の枚数を計算
+// 各硬貨の組み合わせを試す
+for (let q = maxtenThousandYen; q >= 0 && minChange > 0; q--) {
+    if (q * 10000 > maxPayment) continue;
+for (let p = maxfiveThousandYen; p >= 0 && minChange > 0; p--) {
+for (let o = maxthousandYen; o >= 0 && minChange > 0; o--) {
+for (let n = maxfiveHundredYen; n >= 0 && minChange > 0; n--) {
+for (let m = maxhundredYen; m >= 0 && minChange > 0; m--) {
+for (let l = maxfiftyYen; l >= 0 && minChange > 0; l--) {
+for (let k = maxTenYen; k >= 0 && minChange > 0; k--) {
+for (let j = maxFiveYen; j >= 0 && minChange > 0; j--) {
+for (let i = maxOneYen; i >= 0 && minChange > 0; i--) {
+
+// 現在の支払い金額を計算
+const currentPayment = i + (5 * j) + (10 * k) + (50 * l) + (100 * m) + (500 * n)  + (1000 * o) + (5000 * p) + (10000 * q);
+ 
+// 支払額が要求額以上の場合
+if (currentPayment >= payment && currentPayment <= maxPayment) {
+
+// お釣りを計算
+const change = currentPayment - payment;
+
+// すでに計算されたお釣りの組み合わせがあれば、それを再利用
+if (!memo.hasOwnProperty(change)) {
+
+// 早期終了：お釣りが0の場合、これ以上計算する必要はない
+if (change === 0) {
+minChange = 0;
+bestPayment = {
+oneYen: i,
+fiveYen: j,
+tenYen: k,
+fiftyYen: l,
+hundredYen: m,
+fiveHundredYen: n,
+thousandYen: o,
+fiveThousandYen: p,
+tenThousandYen: q
+};
+bestChange = {
+oneYen: 0,
+fiveYen: 0,
+tenYen: 0,
+fiftyYen: 0,
+hundredYen: 0,
+fiveHundredYen: 0,
+thousandYen: 0,
+fiveThousandYen: 0,
+tenThousandYen: 0
+}; break;
+}
+
+// お釣りの各硬貨の枚数を計算
 let changeOneYen = change % 5;
 let changeFiveYen = (change % 10 - changeOneYen) / 5;
 let changeTenYen = (change % 50 - changeFiveYen * 5 - changeOneYen) / 10;
@@ -264,12 +303,28 @@ let changeThousandYen = (change % 5000 - changeFiveHundredYen * 500 - changeHund
 let changeFiveThousandYen = (change % 10000 - changeThousandYen * 1000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 5000;
 let changeTenThousandYen = (change - changeFiveThousandYen * 5000 - changeThousandYen * 1000 - changeFiveHundredYen * 500 - changeHundredYen * 100 - changeFiftyYen * 50 - changeTenYen * 10 - changeFiveYen * 5 - changeOneYen) / 10000;
 
-                    // お釣りの枚数の合計を計算
-                    const totalChange = dp[change];
+// お釣りの枚数の合計を計算
+const totalChange = dp[change];
+
+// メモ化オブジェクトにお釣りの組み合わせを保存
+memo[change] = { 
+oneYen: changeOneYen,
+fiveYen: changeFiveYen,
+tenYen: changeTenYen,
+fiftyYen: changeFiftyYen,
+hundredYen: changeHundredYen,
+fiveHundredYen: changeFiveHundredYen,
+thousandYen: changeThousandYen,
+fiveThousandYen: changeFiveThousandYen,
+tenThousandYen: changeTenThousandYen,
+totalChange: totalChange
+};
+}
+
 // 最小のお釣り枚数を更新
-if (totalChange < minChange) {
-    minChange = totalChange;
-    
+if (memo[change].totalChange < minChange) {
+minChange = memo[change].totalChange;
+
 bestPayment = {
 oneYen: i,
 fiveYen: j,
@@ -283,12 +338,19 @@ tenThousandYen: q
 };
 
 bestChange = {
-oneYen: changeOneYen, fiveYen: changeFiveYen, tenYen: changeTenYen,
-fiftyYen: changeFiftyYen, hundredYen: changeHundredYen, fiveHundredYen: changeFiveHundredYen,
-thousandYen: changeThousandYen, fiveThousandYen: changeFiveThousandYen, tenThousandYen: changeTenThousandYen
+oneYen: memo[change].oneYen,
+fiveYen: memo[change].fiveYen,
+tenYen: memo[change].tenYen,
+fiftyYen: memo[change].fiftyYen,
+hundredYen: memo[change].hundredYen,
+fiveYen: memo[change].fiveYen,
+fiveHundredYen: memo[change].fiveHundredYen,
+thousandYen: memo[change].thousandYen,
+fiveThousandYen: memo[change].fiveThousandYen,
+tenThousandYen: memo[change].tenThousandYen
 };
 if (minChange === 0) {
-        break;
+break;
 }
 }
 }
@@ -301,6 +363,7 @@ if (minChange === 0) {
 }
 }
 }
+
 
 // 結果を表示
 document.getElementById('usedOneYen').innerText = bestPayment.oneYen;
