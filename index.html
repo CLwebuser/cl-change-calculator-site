@@ -18,7 +18,7 @@
     <body onload="calculateChange()">
 <div id="dateInfo">
         <div class="dateItem">制作: 2023/03/29</div>
-        <div class="dateItem">最終編集: 2023/04/07</div>
+        <div class="dateItem">最終編集: 2023/04/09</div>
 </div>
         <div class="container">
     <h1>お釣り計算サイト</h1>
@@ -60,7 +60,7 @@
     </div>
     <div class="input-container">
         <label for="payment" class="input-label">支払額:</label>
-        <input type="number" id="payment" placeholder="0" oninput="clearInput(this)">
+        <input type="text" id="payment" placeholder="0" oninput="clearInput(this)">
     </div>
     <div class="button-container"> 
         <button onclick="calculateChange()">お釣り計算</button>
@@ -162,15 +162,25 @@ function clearInput(element) {
 function calculateChange() {
 // 入力値を取得
 const oneYen = parseInt(document.getElementById("oneYen").value) || 0;
-    const fiveYen = parseInt(document.getElementById("fiveYen").value) || 0;
-    const tenYen = parseInt(document.getElementById("tenYen").value) || 0;
-    const fiftyYen = parseInt(document.getElementById("fiftyYen").value) || 0;
-    const hundredYen = parseInt(document.getElementById("hundredYen").value) || 0;
-    const fiveHundredYen = parseInt(document.getElementById("fiveHundredYen").value) || 0;
-    const thousandYen = parseInt(document.getElementById("thousandYen").value) || 0;
-    const fiveThousandYen = parseInt(document.getElementById("fiveThousandYen").value) || 0;
-    const tenThousandYen = parseInt(document.getElementById("tenThousandYen").value) || 0;
-    const payment = parseInt(document.getElementById("payment").value) || 0;
+const fiveYen = parseInt(document.getElementById("fiveYen").value) || 0;
+const tenYen = parseInt(document.getElementById("tenYen").value) || 0;
+const fiftyYen = parseInt(document.getElementById("fiftyYen").value) || 0;
+const hundredYen = parseInt(document.getElementById("hundredYen").value) || 0;
+const fiveHundredYen = parseInt(document.getElementById("fiveHundredYen").value) || 0;
+const thousandYen = parseInt(document.getElementById("thousandYen").value) || 0;
+const fiveThousandYen = parseInt(document.getElementById("fiveThousandYen").value) || 0;
+const tenThousandYen = parseInt(document.getElementById("tenThousandYen").value) || 0;
+
+// 支払額の入力値をカンマ区切りまたは句読点区切りで分割し、それらの数値を足し算する
+const paymentInput = document.getElementById("payment").value;
+const paymentArray = paymentInput.split(/[、,]/);
+let payment = 0;
+for (const value of paymentArray) {
+const intValue = parseInt(value);
+if (!isNaN(intValue)) {
+payment += intValue;
+}
+}
 
 // 合計金額を計算
 let totalAmount = oneYen + 5 * fiveYen + 10 * tenYen + 50 * fiftyYen + 100 * hundredYen + 500 * fiveHundredYen + 1000 * thousandYen + 5000 * fiveThousandYen + 10000 * tenThousandYen;
