@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="このお釣り計算サイトでは、硬貨と紙幣の枚数と支払金額を入力することで最少のお釣りを計算することができます。最適な硬貨と紙幣の組み合わせでお釣りが最少になるように算出します。">
     <meta name="keywords" content="お釣り計算, お釣り, お金, お釣り計算ツール, お釣り計算サイト, 日本円, お釣り最少、最少のお釣り">
     <meta property="og:title" content="お釣り計算サイト">
@@ -18,10 +18,10 @@
     <body onload="calculateChange()">
 <div id="dateInfo">
         <div class="dateItem">制作: 2023/03/29</div>
-        <div class="dateItem">最終編集: 2023/04/10</div>
+        <div class="dateItem">最終編集: 2023/04/0</div>
 </div>
         <div class="container">
-    <h1>お釣り計算サイト</h1>
+    <h1>お釣り計算アプリ</h1>
     <div class="input-container">
         <label for="tenThousandYen" class="input-label">一万円札:</label>
         <input type="number" id="tenThousandYen" placeholder="0" oninput="clearInput(this)">
@@ -61,11 +61,16 @@
     <div class="input-container">
         <label for="payment" class="input-label">支払額:</label>
         <input type="text" id="payment" placeholder="0" oninput="clearInput(this)">
-    </div>
-    <div class="button-container"> 
+        <div class="info-icon" onclick="event.stopPropagation(); toggleInfo();">
+          <i class="fas fa-question-circle"></i>
+        </div>
+      </div>        
+    <div class="button-container">
         <button onclick="calculateChange()">お釣り計算</button>
         <button onclick="resetInputs()"><i class="fas fa-undo"></i></button>
     </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     <h2>支払いに使用する硬貨・紙幣</h2>
     <p>支払いに使用する金額の合計: <span id="usedTotalAmount">0</span>円    </p>
@@ -88,7 +93,7 @@
     <p id="changeFiveHundredYenP">500円玉: <span id="changeFiveHundredYen">0</span></p>
     <p id="changeHundredYenP">100円玉: <span id="changeHundredYen">0</span></p>
     <p id="changeFiftyYenP">50円玉: <span id="changeFiftyYen">0</span></p>
-    <p id="changeTenYenP">10円玉: <span id="changeTenYen">0</span></p>    
+    <p id="changeTenYenP">10円玉: <span id="changeTenYen">0</span></p>
     <p id="changeFiveYenP">5円玉: <span id="changeFiveYen">0</span></p>
     <p id="changeOneYenP">1円玉: <span id="changeOneYen">0</span></p>
     
@@ -101,6 +106,41 @@
 </div>
 
     <script>
+
+function toggleInfo() {
+  const infoText = document.getElementById('infoText');
+  if (infoText) {
+    infoText.remove();
+  } else {
+    createInfoText();
+    // 吹き出し以外の画面をクリックしたら吹き出しを消すイベントリスナーを追加
+    setTimeout(() => {
+      document.addEventListener('click', removeInfoTextOnClickOutside, { once: true });
+    }, 0);
+  }
+}
+    function createInfoText() {
+      const infoText = document.createElement('div');
+      infoText.id = 'infoText';
+      infoText.className = 'info-text';
+      infoText.textContent = '支払額の入力値をプラス記号(＋)、カンマ(,)、読点(、)、ピリオド(.)で分割した場合、それらの数値は足し算されます。';
+      const inputContainer = document.querySelector('.input-container');
+      inputContainer.appendChild(infoText);
+    }
+
+    function clearInput(element) {
+  element.value = '';
+}
+
+function removeInfoTextOnClickOutside() {
+  const infoText = document.getElementById('infoText');
+  if (infoText) {
+    infoText.remove();
+  }
+}
+
+
+
 
 //入力欄の0を自動で削除
 function clearInput(element) {
@@ -171,9 +211,9 @@ const thousandYen = parseInt(document.getElementById("thousandYen").value) || 0;
 const fiveThousandYen = parseInt(document.getElementById("fiveThousandYen").value) || 0;
 const tenThousandYen = parseInt(document.getElementById("tenThousandYen").value) || 0;
 
-// 支払額の入力値をカンマ区切りまたは句読点区切りで分割し、それらの数値を足し算する
+// 支払額の入力値をカンマ、句読点、ピリオド、プラス記号で分割し、それらの数値を足し算する
 const paymentInput = document.getElementById("payment").value;
-const paymentArray = paymentInput.split(/[、,]/);
+const paymentArray = paymentInput.split(/[、,\.+\＋]/);
 let payment = 0;
 for (const value of paymentArray) {
 const intValue = parseInt(value);
@@ -317,7 +357,7 @@ let changeTenThousandYen = (change - changeFiveThousandYen * 5000 - changeThousa
 const totalChange = dp[change];
 
 // メモ化オブジェクトにお釣りの組み合わせを保存
-memo[change] = { 
+memo[change] = {
 oneYen: changeOneYen,
 fiveYen: changeFiveYen,
 tenYen: changeTenYen,
