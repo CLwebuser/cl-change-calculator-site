@@ -172,8 +172,13 @@ function clearInput(element) {
       });
     });
 
+// Web Workerを作成
+let worker = new Worker('worker.js');
+
+
 // リセットボタンの結果
 function resetInputs() {
+
   const inputIds = [
   "oneYen",
   "fiveYen",
@@ -187,18 +192,23 @@ function resetInputs() {
   "payment",
 ];
 
-    for (const id of inputIds) {
-        const inputElement = document.getElementById(id);
-        inputElement.value = '';
-        inputElement.placeholder = '0';
-    }
+  for (const id of inputIds) {
+  const inputElement = document.getElementById(id);
+  inputElement.value = '';
+  inputElement.placeholder = '0';
+  }
 
-    // リセット後にお釣り計算を実行
-    calculateChange();
+    // Web Worker の計算を停止
+    worker.terminate();
+
+// 新しい Web Worker を作成し、イベントリスナーを再設定
+worker = new Worker('worker.js');
+worker.addEventListener('message', handleMessageFromWorker);
+
+  // リセット後にお釣り計算を実行
+  calculateChange();
 }
 
-// Web Workerを作成
-const worker = new Worker('worker.js');
 
 function calculateChange() {
     // 支払額の入力値をカンマ、句読点、ピリオド、プラス記号で分割し、それらの数値を足し算する
@@ -238,7 +248,7 @@ function updateDisplay(id, value) {
 }
 
 // Web Workerからのメッセージを受信
-worker.addEventListener('message', (event) => {
+function handleMessageFromWorker(event) {
   if (event.data.type === "insufficient_payment") {
     alert("入力された支払額が足りません。");
   } else { 
@@ -273,7 +283,9 @@ document.getElementById('changeTotalCount').innerText = changeTotalCount;
 document.getElementById('paymentValue').innerText = payment;
 document.getElementById('paymentTotalValue').innerText = usedTotalAmount;
 }
-});
+}
+worker.addEventListener('message', handleMessageFromWorker);
+
 </script>
 </body>
 </html>
